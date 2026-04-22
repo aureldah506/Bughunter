@@ -1,0 +1,100 @@
+<div class="min-h-screen bg-[#0f0f1a] text-slate-200 font-sans antialiased flex flex-col relative selection:bg-purple-500/30 overflow-x-hidden">
+    
+    <div class="fixed inset-0 z-0 pointer-events-none">
+        <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/fa51902b-c2a4-4c33-a96e-a8f1ef67edc6_1600w.jpg" alt="Neon Wave" class="w-full h-full object-cover opacity-20 mix-blend-screen">
+        <div class="absolute inset-0 bg-gradient-to-b from-[#0f0f1a]/80 via-[#0f0f1a]/95 to-[#0f0f1a]"></div>
+    </div>
+
+    <header class="z-10 md:px-12 flex w-full border-white/5 border-b p-6 relative items-center justify-between">
+        <div class="flex items-center gap-3">
+            <div class="h-8 w-8 rounded-lg bg-cyan-500/10 border border-cyan-500/30 flex items-center justify-center">
+                <iconify-icon icon="solar:bug-minimalistic-linear" class="text-base text-cyan-400"></iconify-icon>
+            </div>
+            <span class="text-base font-semibold tracking-tight text-white uppercase tracking-tighter">Bug Hunter <span class="text-cyan-400">Arena</span></span>
+        </div>
+        <a routerLink="/login" class="text-xs font-medium text-white bg-white/5 hover:bg-white/10 transition-colors px-6 py-2 rounded-full border border-white/10 shadow-sm backdrop-blur-md uppercase tracking-widest">
+            Accès Système
+        </a>
+    </header>
+
+    <main class="flex-grow flex flex-col md:py-20 w-full max-w-7xl z-10 mx-auto px-4 pt-12 relative items-center justify-center">
+        
+        <div class="text-center max-w-3xl mb-20 flex flex-col items-center">
+            <div class="hero-fade inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-300 text-[10px] font-bold uppercase tracking-[0.2em] mb-8">
+                <span class="relative flex h-2 w-2">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+                </span>
+                Système de Scan v4.2 Actif
+            </div>
+            
+            <h1 class="text-4xl md:text-7xl font-black text-white mb-6 leading-tight uppercase tracking-tighter">
+                <span class="block hero-title-line">Traquez l'Anomalie.</span>
+                <span class="block hero-title-line bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-cyan-400">Purgez le Système.</span>
+            </h1>
+            
+            <p class="hero-fade text-sm md:text-lg text-slate-400 font-medium max-w-xl mx-auto mb-10 leading-relaxed">
+                L'arène compétitive ultime pour les développeurs. Formez votre escouade, affrontez des bugs réels et dominez le réseau.
+            </p>
+            
+            <a routerLink="/login" class="hero-fade inline-flex items-center justify-center gap-3 bg-white text-[#0f0f1a] hover:bg-cyan-400 transition-all px-10 py-4 rounded-xl text-xs font-black tracking-[0.2em] uppercase shadow-[0_0_40px_rgba(255,255,255,0.1)] active:scale-95">
+                Initialiser la session
+                <iconify-icon icon="solar:double-alt-arrow-right-bold" class="text-lg"></iconify-icon>
+            </a>
+        </div>
+
+        <div class="w-full grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            
+            <div class="feature-card group relative rounded-2xl p-[1px] bg-white/5 hover:bg-cyan-500/30 transition-all duration-500">
+                <div class="h-full w-full bg-[#12121e]/80 backdrop-blur-sm rounded-[15px] p-8 flex flex-col border border-white/5 shadow-2xl">
+                    <div class="h-10 w-10 rounded-xl bg-cyan-500/10 border border-cyan-500/20 flex items-center justify-center mb-6 text-cyan-400 group-hover:scale-110 transition-transform">
+                        <iconify-icon icon="solar:users-group-two-rounded-linear" class="text-2xl"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-3 uppercase tracking-tight">Escouades Multi-Tech</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Enrôlez 5 experts dédiés. Un pour chaque pilier : <span class="text-cyan-400">PHP, React, C++, C# et Mobile</span>. La polyvalence est votre meilleure arme.
+                    </p>
+                </div>
+            </div>
+
+            <div class="feature-card group relative rounded-2xl p-[1px] bg-gradient-to-b from-purple-500/40 to-transparent shadow-[0_0_30px_rgba(168,85,247,0.1)] transition-all duration-500 md:-translate-y-4">
+                <div class="h-full w-full bg-[#161625] rounded-[15px] p-8 flex flex-col relative overflow-hidden border border-white/10">
+                    <img src="https://hoirqrkdgbmvpwutwuwj.supabase.co/storage/v1/object/public/assets/assets/4734259a-bad7-422f-981e-ce01e79184f2_1600w.jpg" class="absolute inset-0 w-full h-full object-cover opacity-10 mix-blend-screen pointer-events-none">
+                    <div class="relative z-10 h-10 w-10 rounded-xl bg-purple-500/20 border border-purple-500/30 flex items-center justify-center mb-6 text-purple-400 group-hover:rotate-90 transition-transform duration-700">
+                        <iconify-icon icon="solar:radar-bold-duotone" class="text-2xl"></iconify-icon>
+                    </div>
+                    <h3 class="relative z-10 text-lg font-bold text-white mb-3 uppercase tracking-tight">Ciblage Aléatoire</h3>
+                    <p class="relative z-10 text-xs text-slate-300 leading-relaxed">
+                        L'algorithme de scan sélectionne une anomalie critique. Personne ne sait quel expert sera appelé au front. Tenez-vous prêts.
+                    </p>
+                    <div class="relative z-10 mt-auto pt-6">
+                        <div class="text-[10px] text-purple-400 font-bold tracking-[0.3em] uppercase animate-pulse">Scan en attente...</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="feature-card group relative rounded-2xl p-[1px] bg-white/5 hover:bg-emerald-500/30 transition-all duration-500">
+                <div class="h-full w-full bg-[#12121e]/80 backdrop-blur-sm rounded-[15px] p-8 flex flex-col border border-white/5 shadow-2xl">
+                    <div class="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mb-6 text-emerald-400 group-hover:scale-110 transition-transform">
+                        <iconify-icon icon="solar:code-square-bold-duotone" class="text-2xl"></iconify-icon>
+                    </div>
+                    <h3 class="text-lg font-bold text-white mb-3 uppercase tracking-tight">Arène de Débogage</h3>
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        Interface de terminal immersive. Analysez le code corrompu, identifiez la faille et restaurez le système pour gagner des points de prestige.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer class="relative z-10 border-t border-white/5 py-8 w-full mt-auto">
+        <div class="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-[10px] font-bold text-slate-500 uppercase tracking-[0.2em]">
+            <span>Bug Hunter Arena © 2026. Built for the competitive coder.</span>
+            <div class="flex gap-8">
+                <a href="#" class="hover:text-cyan-400 transition-colors">Documentation</a>
+                <a href="#" class="hover:text-cyan-400 transition-colors">Réseau Discord</a>
+            </div>
+        </div>
+    </footer>
+</div>
