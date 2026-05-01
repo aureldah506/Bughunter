@@ -1,0 +1,213 @@
+<div class="min-h-screen bg-[#0f0f1a] text-slate-200 font-sans">
+
+  <!-- ── Header ── -->
+  <div class="border-b border-white/5 px-6 py-4">
+    <div class="max-w-7xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-4">
+        <div class="h-10 w-10 rounded-xl bg-red-500/20 border border-red-500/30 flex items-center justify-center">
+          <iconify-icon icon="solar:eye-bold-duotone" class="text-xl text-red-400"></iconify-icon>
+        </div>
+        <div>
+          <p class="text-[10px] text-slate-500 uppercase tracking-widest">Vue Spectateur</p>
+          <h1 class="text-xl font-black text-white uppercase tracking-tight">Bug Hunter Arena</h1>
+        </div>
+      </div>
+      <div class="flex items-center gap-4">
+        <div class="flex items-center gap-2 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20">
+          <span class="relative flex h-2 w-2">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-2 w-2 bg-red-500"></span>
+          </span>
+          <span class="text-[10px] text-red-400 font-bold uppercase tracking-widest">Live — mise à jour 3s</span>
+        </div>
+        <button *ngIf="isLoggedIn" type="button" (click)="goTeam()"
+                class="text-xs text-cyan-400 hover:text-white border border-cyan-500/30 bg-cyan-500/10 hover:bg-cyan-500/20 px-3 py-2 rounded-lg transition-colors">
+          ← Mon équipe
+        </button>
+        <button type="button" (click)="goHome()"
+                class="text-xs text-slate-500 hover:text-white border border-white/10 px-3 py-2 rounded-lg transition-colors">
+          Accueil
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── Chargement ── -->
+  <div *ngIf="loading()" class="flex items-center justify-center py-32">
+    <div class="inline-block w-10 h-10 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+
+  <!-- ── Contenu ── -->
+  <div *ngIf="!loading()" class="max-w-7xl mx-auto p-6 space-y-6">
+
+    <!-- ── Équipe active avec ses experts ── -->
+    <div class="bg-[#161625] border border-cyan-500/20 rounded-2xl p-6">
+      <div class="flex items-center justify-between mb-4">
+        <div class="flex items-center gap-3">
+          <div class="h-10 w-10 rounded-xl bg-cyan-500/20 border border-cyan-500/30 flex items-center justify-center">
+            <iconify-icon icon="solar:users-group-two-rounded-bold-duotone" class="text-xl text-cyan-400"></iconify-icon>
+          </div>
+          <div>
+            <p class="text-[10px] text-cyan-400 uppercase tracking-widest">Équipe active</p>
+            <p class="text-2xl font-black text-white">{{ activePlayer() || '—' }}</p>
+          </div>
+        </div>
+        <span class="relative flex h-3 w-3">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+        </span>
+      </div>
+
+      <!-- Experts de l'équipe avec leurs technos -->
+      <div *ngIf="activeExperts().length > 0"
+           class="grid grid-cols-2 md:grid-cols-5 gap-3 mt-2">
+        <div *ngFor="let exp of activeExperts()"
+             class="flex flex-col items-center p-3 rounded-xl bg-white/5 border border-white/5 text-center">
+          <span class="text-2xl mb-1">{{ getAvatarEmoji(exp.avatar) }}</span>
+          <p class="text-xs font-bold text-white truncate w-full">{{ exp.pseudo }}</p>
+          <span class="text-[10px] mt-1 px-2 py-0.5 rounded-full border"
+                [ngClass]="{
+                  'text-cyan-400 border-cyan-500/30':       exp.tech_name === 'PHP',
+                  'text-blue-400 border-blue-500/30':       exp.tech_name === 'ReactJS',
+                  'text-purple-400 border-purple-500/30':   exp.tech_name === 'C++',
+                  'text-emerald-400 border-emerald-500/30': exp.tech_name === 'C#',
+                  'text-orange-400 border-orange-500/30':   exp.tech_name === 'Mobile'
+                }">
+            {{ exp.tech_name }}
+          </span>
+          <div class="flex gap-2 mt-2">
+            <span class="text-[10px] text-white">{{ exp.score }} pts</span>
+            <span class="text-[10px] text-yellow-400">🪙{{ exp.coins }}</span>
+          </div>
+        </div>
+      </div>
+
+      <p *ngIf="activeExperts().length === 0" class="text-slate-500 text-sm text-center py-4">
+        En attente d'une équipe...
+      </p>
+    </div>
+
+    <!-- ── Classement + Historique ── -->
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+      <!-- Classement temps réel -->
+      <div class="lg:col-span-2 bg-[#161625] border border-white/5 rounded-2xl p-6">
+        <div class="flex items-center justify-between mb-5">
+          <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest">
+            Classement en temps réel
+          </h2>
+          <span class="text-[10px] text-slate-500">{{ teams().length }} équipe(s)</span>
+        </div>
+
+        <div class="space-y-3">
+          <div *ngFor="let team of teams(); let i = index"
+               class="rounded-xl border overflow-hidden transition-all"
+               [ngClass]="{
+                 'bg-yellow-500/10 border-yellow-500/30': i === 0,
+                 'bg-slate-500/10 border-slate-500/30':   i === 1,
+                 'bg-orange-500/10 border-orange-500/30': i === 2,
+                 'bg-white/3 border-white/5':             i > 2
+               }">
+            <!-- Ligne équipe -->
+            <div class="flex items-center justify-between p-4">
+              <div class="flex items-center gap-4">
+                <span class="text-2xl w-10 text-center">
+                  {{ i === 0 ? '🥇' : i === 1 ? '🥈' : i === 2 ? '🥉' : '#' + (i + 1) }}
+                </span>
+                <p class="font-bold text-white text-base">{{ team.name }}</p>
+              </div>
+              <div class="text-right">
+                <p class="font-black font-mono text-2xl text-cyan-400">{{ team.score }}</p>
+                <p class="text-[10px] text-slate-500">points</p>
+              </div>
+            </div>
+            <!-- Experts avec coins -->
+            <div *ngIf="team.experts?.length" class="border-t border-white/5 divide-y divide-white/5">
+              <div *ngFor="let exp of team.experts"
+                   class="flex items-center justify-between px-5 py-2 bg-black/20">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm">{{ getAvatarEmoji(exp.avatar) }}</span>
+                  <div>
+                    <p class="text-xs text-white font-medium">{{ exp.pseudo }}</p>
+                    <p class="text-[10px] text-slate-500">{{ exp.tech_name }}</p>
+                  </div>
+                </div>
+                <div class="flex items-center gap-4">
+                  <div class="text-center">
+                    <p class="text-[10px] text-slate-500">Score</p>
+                    <p class="text-xs font-bold text-white">{{ exp.score }}</p>
+                  </div>
+                  <div class="text-center">
+                    <p class="text-[10px] text-yellow-400">🪙</p>
+                    <p class="text-xs font-bold text-yellow-400">{{ exp.coins }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="teams().length === 0"
+               class="text-center py-12 text-slate-500 text-sm">
+            En attente des équipes...
+          </div>
+        </div>
+      </div>
+
+      <!-- Historique des corrections -->
+      <div class="bg-[#161625] border border-white/5 rounded-2xl p-6">
+        <h2 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">
+          Corrections en cours
+        </h2>
+        <div class="space-y-2 max-h-[500px] overflow-y-auto">
+          <div *ngFor="let entry of history()"
+               class="rounded-xl border overflow-hidden transition-all"
+               [ngClass]="{
+                 'border-green-500/30 bg-green-500/5': entry.is_correct,
+                 'border-red-500/30 bg-red-500/5':    !entry.is_correct
+               }">
+            <div class="flex justify-between items-start p-3">
+              <div class="flex items-center gap-2">
+                <span>{{ entry.is_correct ? '✅' : '❌' }}</span>
+                <span class="text-xs font-bold text-white">{{ entry.team_name }}</span>
+              </div>
+              <div class="flex items-center gap-2">
+                <span class="text-[10px] font-bold"
+                      [class.text-green-400]="entry.is_correct"
+                      [class.text-red-400]="!entry.is_correct">
+                  {{ entry.is_correct ? '+' + entry.points + ' pts' : 'Raté' }}
+                </span>
+                <button *ngIf="!entry.is_correct && entry.correction"
+                        type="button"
+                        (click)="entry._show = !entry._show"
+                        class="text-[9px] px-2 py-0.5 rounded border border-yellow-500/30 text-yellow-400 bg-yellow-500/10 hover:bg-yellow-500/20 transition-colors">
+                  {{ entry._show ? '▲' : '💡' }}
+                </button>
+              </div>
+            </div>
+            <div class="flex justify-between items-center px-3 pb-2">
+              <span class="text-[10px] text-slate-400 font-mono">{{ entry.tech_name }}</span>
+              <span class="text-[10px] text-slate-500">{{ entry.solved_at | date:'HH:mm:ss' }}</span>
+            </div>
+            <!-- Correction dépliable avec question + réponse -->
+            <div *ngIf="entry._show && entry.correction"
+                 class="border-t border-yellow-500/20 bg-[#0f0f1a] p-3 space-y-2">
+              <p *ngIf="entry.question_desc" class="text-[10px] text-slate-300">{{ entry.question_desc }}</p>
+              <pre *ngIf="entry.question_code"
+                   class="bg-black rounded p-2 font-mono text-[10px] text-green-400 overflow-x-auto whitespace-pre-wrap">{{ entry.question_code }}</pre>
+              <div class="bg-green-500/10 border border-green-500/20 rounded p-2">
+                <p class="text-[9px] text-green-400 uppercase tracking-widest mb-1">✓ Bonne réponse</p>
+                <p class="text-xs text-green-300">{{ entry.correction }}</p>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="history().length === 0"
+               class="text-center py-12 text-slate-500 text-sm">
+            Aucune correction enregistrée
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

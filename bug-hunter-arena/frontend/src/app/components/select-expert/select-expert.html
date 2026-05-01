@@ -1,0 +1,104 @@
+<div class="min-h-screen bg-[#0f0f1a] text-slate-200 font-sans flex flex-col items-center justify-center p-6">
+
+  <!-- Header -->
+  <div class="text-center mb-10">
+    <p class="text-[10px] text-cyan-400 uppercase tracking-[0.3em] mb-2">Escouade : {{ teamName }}</p>
+    <h1 class="text-3xl font-black text-white uppercase tracking-tight">
+      {{ step() === 'expert' ? 'Qui joue ?' : 'Choisis ton avatar' }}
+    </h1>
+    <p class="text-slate-400 text-sm mt-2">
+      <ng-container *ngIf="step() === 'expert'">Sélectionne ton expert pour cette manche</ng-container>
+      <ng-container *ngIf="step() === 'avatar'">Personnalise ton identité dans l'arène</ng-container>
+    </p>
+  </div>
+
+  <!-- Chargement -->
+  <div *ngIf="loading()" class="text-center py-12">
+    <div class="inline-block w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"></div>
+  </div>
+
+  <!-- ── ÉTAPE 1 : Sélection de l'expert ── -->  <div *ngIf="!loading() && step() === 'expert'" class="w-full max-w-lg space-y-3">
+    <button
+      type="button"
+      *ngFor="let expert of experts()"
+      (click)="chooseExpert(expert)"
+      class="w-full flex items-center justify-between p-5 bg-[#161625] border border-white/5
+             rounded-2xl hover:border-cyan-500/50 hover:bg-[#1a1a2e] transition-all group">
+      <div class="flex items-center gap-4">
+        <div class="text-3xl w-12 h-12 flex items-center justify-center bg-white/5 rounded-xl">
+          {{ getAvatar(expert.avatar).emoji }}
+        </div>
+        <div class="text-left">
+          <p class="font-bold text-white text-base">{{ expert.pseudo }}</p>
+          <p class="text-xs text-slate-400">Expert {{ expert.tech_name }}</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="text-center">
+          <p class="text-[10px] text-slate-500 uppercase tracking-widest">Score</p>
+          <p class="text-sm font-bold text-white">{{ expert.score }}</p>
+        </div>
+        <div class="text-center">
+          <p class="text-[10px] text-yellow-400 uppercase tracking-widest">Coins</p>
+          <p class="text-sm font-bold text-yellow-400">🪙 {{ expert.coins }}</p>
+        </div>
+        <span class="text-slate-600 group-hover:text-cyan-400 transition-colors text-xl">›</span>
+      </div>
+    </button>
+  </div>
+
+  <!-- ── ÉTAPE 2 : Sélection de l'avatar ── -->
+  <div *ngIf="step() === 'avatar'" class="w-full max-w-lg">
+
+    <!-- Expert + techno -->
+    <div class="bg-[#161625] border border-cyan-500/20 rounded-2xl p-4 mb-6 flex items-center gap-4">
+      <div class="text-3xl">{{ getAvatar(selectedAvatar()).emoji }}</div>
+      <div>
+        <p class="font-bold text-white">{{ selectedExpert()?.pseudo }}</p>
+        <p class="text-xs text-slate-400">Expert {{ selectedExpert()?.tech_name }}</p>
+      </div>
+      <div class="ml-auto flex gap-4">
+        <div class="text-center">
+          <p class="text-[10px] text-slate-500">Score</p>
+          <p class="text-sm font-bold text-white">{{ selectedExpert()?.score }}</p>
+        </div>
+        <div class="text-center">
+          <p class="text-[10px] text-yellow-400">Coins</p>
+          <p class="text-sm font-bold text-yellow-400">🪙 {{ selectedExpert()?.coins }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Grille d'avatars -->
+    <div class="grid grid-cols-3 gap-3 mb-6">
+      <button
+        type="button"
+        *ngFor="let av of avatars"
+        (click)="chooseAvatar(av.id)"
+        class="flex flex-col items-center justify-center p-5 rounded-2xl border-2 transition-all"
+        [ngClass]="selectedAvatar() === av.id
+          ? av.color + ' scale-105 shadow-lg'
+          : 'border-white/5 bg-white/3 hover:border-white/20'">
+        <span class="text-4xl mb-2">{{ av.emoji }}</span>
+        <span class="text-xs font-bold text-white">{{ av.label }}</span>
+      </button>
+    </div>
+
+    <button
+      type="button"
+      (click)="confirm()"
+      [disabled]="!selectedAvatar() || saving()"
+      class="w-full h-12 bg-cyan-500 hover:bg-cyan-400 text-[#0f0f1a] font-bold rounded-xl
+             transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+      <span *ngIf="!saving()">Entrer dans l'Arène →</span>
+      <span *ngIf="saving()" class="animate-pulse">Préparation...</span>
+    </button>
+  </div>
+
+  <!-- Retour -->
+  <button type="button" (click)="back()"
+          class="mt-6 text-xs text-slate-500 hover:text-white transition-colors">
+    ← Retour
+  </button>
+
+</div>
