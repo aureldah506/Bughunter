@@ -47,7 +47,7 @@ class SpectatorController {
             $isActive = false;
             if ($session && !empty($session['last_activity'])) {
                 $lastActivity = strtotime($session['last_activity']);
-                $isActive = (time() - $lastActivity) < 600; // 10 minutes
+                $isActive = (time() - $lastActivity) < 120; // 2 minutes
             }
 
             if (!$isActive) {

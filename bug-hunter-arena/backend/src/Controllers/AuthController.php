@@ -62,6 +62,22 @@ class AuthController {
     }
 
     /**
+     * POST /api/auth/logout
+     * Efface l'équipe active dans game_session.
+     */
+    public function logout(): void {
+        header('Content-Type: application/json');
+        try {
+            $this->db->exec(
+                "UPDATE game_session SET active_player = NULL, active_team_id = NULL, last_activity = NULL ORDER BY id DESC LIMIT 1"
+            );
+            echo json_encode(['success' => true]);
+        } catch (Exception $e) {
+            echo json_encode(['success' => true]); // non bloquant
+        }
+    }
+
+    /**
      * Gère la connexion d'une escouade existante
      */
     public function login() {
@@ -104,6 +120,16 @@ class AuthController {
                         "experts" => $experts
                     ]
                 ]);
+
+                // Mettre à jour la session active pour la vue spectateur
+                try {
+                    $count = $this->db->query("SELECT COUNT(*) FROM game_session")->fetchColumn();
+                    if ($count > 0) {
+                        $this->db->prepare(
+                            "UPDATE game_session SET active_player = ?, active_team_id = ?, last_activity = NOW() ORDER BY id DESC LIMIT 1"
+                        )->execute([$team['name'], $team['id']]);
+                    }
+                } catch (Exception $e) { /* non bloquant */ }
             } else {
                 http_response_code(401);
                 echo json_encode(["error" => "Nom d'escouade ou code d'accès invalide."]);

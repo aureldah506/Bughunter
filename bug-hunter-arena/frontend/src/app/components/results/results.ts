@@ -68,6 +68,7 @@ export class ResultsComponent implements OnInit {
   }
 
   logout(): void {
+    this.apiService.logout().subscribe({ error: () => {} });
     localStorage.clear();
     this.router.navigate(['/']);
   }

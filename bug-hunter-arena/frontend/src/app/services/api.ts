@@ -16,6 +16,10 @@ export class ApiService {
     return this.http.post(`${this.baseUrl}/auth/login`, data);
   }
 
+  logout(): Observable<any> {
+    return this.http.post(`${this.baseUrl}/auth/logout`, {});
+  }
+
   getRandomQuiz(techId?: number, seenIds?: number[]): Observable<any> {
     let url = techId
       ? `${this.baseUrl}/quiz/random?tech=${techId}`

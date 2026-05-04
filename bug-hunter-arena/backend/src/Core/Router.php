@@ -23,6 +23,12 @@ class Router {
         elseif (strpos($uri, '/api/auth/login') !== false && $method === 'POST') {
             (new AuthController())->login();
         }
+        elseif (strpos($uri, '/api/auth/logout') !== false && $method === 'POST') {
+            (new AuthController())->logout();
+        }
+        elseif (strpos($uri, '/api/auth/logout') !== false && $method === 'POST') {
+            (new AuthController())->logout();
+        }
         elseif (strpos($uri, '/api/leaderboard') !== false && $method === 'GET') {
             (new LeaderboardController())->index();
         }

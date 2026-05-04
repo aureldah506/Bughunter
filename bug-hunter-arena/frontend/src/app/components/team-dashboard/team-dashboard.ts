@@ -105,6 +105,7 @@ export class TeamDashboardComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
+    this.apiService.logout().subscribe({ error: () => {} });
     localStorage.clear();
     this.router.navigate(['/']);
   }
